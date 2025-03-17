@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1038272819558",
+    "project_id": "drs-booking",
+    "storage_bucket": "drs-booking.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038272819558:android:de62e1fbd7b70a261958a7",
+        "android_client_info": {
+          "package_name": "com.desss.drs_booking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038272819558-d6hlpr0v79hmqqdgu1qthc57rhcdqo9f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.desss.drs_booking",
+            "certificate_hash": "581f896c088a4bf496ed3632464374ecd871b2b0"
+          }
+        },
+        {
+          "client_id": "1038272819558-05o14p0ahjdvjf1kemv9svog9a5rum2i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPbYw5s8P_kxPIubxtXn0NA6y9urmntOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038272819558-05o14p0ahjdvjf1kemv9svog9a5rum2i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
