@@ -1,17 +1,30 @@
 class AppStrings {
   static const noSkills = 'No Skills..!';
   static const categoriesContent = 'Your health is our priority..!';
-  static const loginContentText =
-      'Enter your mobile number and password to login.';
+  static const loginContentText = 'Appoint Your Doctor Easily';
+  static const email = 'Email';
+  static const password = 'Password';
+  static const forgotPassword = 'Forgot Password';
+  static const signIn = 'Sign In';
+  static const continueWith = 'Or Continue with';
+  static const signUp = 'Sign Up';
+  static const forgotPasswordContent =
+      'Enter the phone number associated with your account';
+  static const getOtp = 'Get Otp';
+  static const signUpContentText = 'Enter your details to get started';
+  static const firstName = 'First Name';
+  static const lastName = 'Last Name';
+  static const dateOfBirth = 'Date of Birth';
+  static const male = 'Male';
+  static const female = 'Female';
+
   static const enterPhoneNumber = 'Enter your Phone Number';
   static const enterPassword = 'Enter your Password';
-  static const password = 'Password';
-  static const continueWith = 'Or Continue with';
+
   static const alreadyHaveAccount = 'Already have an account? ';
-  static const registerHere = 'Register here.';
-  static const login = 'Login';
+
   static const exitMessage = 'Are you sure you want to exit?';
-  static const forgotPassword = 'Forgot Password';
+
   static const pleaseWait = 'Please wait... !';
   static const rotateAnimatedTextOne =
       'Scan, save, and share your notes effortlessly with Zmart Doc!';
@@ -24,7 +37,7 @@ class AppStrings {
   static const deleteImage = 'Are you sure you want to delete this image?';
   static const forgotPasswordContentText =
       'Enter the phone number associated with your account';
-  static const getOtp = 'Get Otp';
+
   static const otp = 'Enter OTP';
   static const verification = 'Verification';
   static const verificationContentText =
@@ -39,10 +52,9 @@ class AppStrings {
   static const reEnterPassword = 'Re-enter your Password';
   static const phoneNumber = 'Phone Number';
   static const passwordNotMatch = 'Password doesn\'t match';
-  static const signUp = 'Sign Up';
-  static const signUpContentText = 'Enter your details to get started.';
+
   static const name = 'Name';
-  static const email = 'E-Mail';
+
   static const enterName = 'Enter your Name';
   static const enterEmail = 'Enter your E-Mail Id';
   static const logOut = 'Log Out';
