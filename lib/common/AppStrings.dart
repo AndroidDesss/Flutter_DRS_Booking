@@ -17,6 +17,21 @@ class AppStrings {
   static const dateOfBirth = 'Date of Birth';
   static const male = 'Male';
   static const female = 'Female';
+  static const verificationContent =
+      'Enter the OTP sent to your phone number associated with your account';
+  static const verifyProceed = 'Verify & Proceed';
+  static const findYourDoctor = 'Find Your Doctor';
+  static const noDoctors = 'No Doctors..!';
+  static const qualification = 'Qualification';
+  static const specialties = 'Specialties';
+  static const awards = 'Awards';
+  static const about = 'About';
+  static const makeAppointment = 'Make Appointment';
+  static const slots = 'Slots';
+  static const visit = 'Have you visited before?';
+  static const bookAppointment = 'Book Appointment';
+  static const reasonToVisit = 'Reason to visit doctor?';
+  static const noSlotsAvailable = 'No Slots Available';
 
   static const enterPhoneNumber = 'Enter your Phone Number';
   static const enterPassword = 'Enter your Password';
@@ -42,7 +57,7 @@ class AppStrings {
   static const verification = 'Verification';
   static const verificationContentText =
       'We’ve sent a 6-digit OTP to your phone. Please enter it.';
-  static const verifyProceed = 'Verify & Proceed';
+
   static const reSendOtp = 'Re-send OTP';
   static const changePassword = 'Change Password';
   static const changePasswordContentText =

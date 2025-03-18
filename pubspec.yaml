@@ -18,6 +18,8 @@ dependencies:
   firebase_auth: ^5.5.1
   google_sign_in: ^6.2.2
   shared_preferences: ^2.4.0
+  table_calendar: ^3.2.0
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +39,8 @@ flutter:
         - asset: assets/fonts/metrisch_medium.otf
 
   assets:
+    - assets/loader/loading.json
+    - assets/noData/noData.json
     - assets/icons/bottom_home_menu.png
     - assets/icons/bottom_search_menu.png
     - assets/icons/bottom_appointments_menu.png

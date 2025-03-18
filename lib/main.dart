@@ -1,4 +1,4 @@
-import 'package:drs_booking/authentication/view/login_screen.dart';
+import 'package:drs_booking/dashboard/dash_board_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:io' as platform;
@@ -10,7 +10,7 @@ void main() async {
 
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: LoginScreen(),
+    home: DashBoardScreen(),
   ));
 }
 

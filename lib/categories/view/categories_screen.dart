@@ -1,8 +1,10 @@
 import 'package:drs_booking/categories/model/categories_model.dart';
 import 'package:drs_booking/categories/viewModel/categories_view_model.dart';
 import 'package:drs_booking/common/AppStrings.dart';
-import 'package:drs_booking/doctors/doctor_list_screen.dart';
+import 'package:drs_booking/doctors/view/doctor_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -111,17 +113,13 @@ class CategoriesScreenState extends State<CategoriesScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                'assets/icons/app_logo.png',
-                                width: 200,
-                                height: 200,
-                              ),
-                              const SizedBox(height: 20),
+                              Lottie.asset('assets/noData/noData.json',
+                                  width: 200, height: 200),
                               const Text(
-                                AppStrings.noSkills,
+                                AppStrings.noDoctors,
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
+                                  fontSize: 20,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'MetrischRegular',
                                 ),
@@ -172,23 +170,11 @@ class GridViewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        PersistentNavBarNavigator.pushNewScreen(
           context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return DoctorListScreen(localSkillId: character.id);
-            },
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              const begin = Offset(1.0, 0.0); // Start from right to left
-              const end = Offset.zero; // End at current position
-              const curve = Curves.easeInOut; // Smooth transition
-              var tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              var offsetAnimation = animation.drive(tween);
-              return SlideTransition(position: offsetAnimation, child: child);
-            },
-          ),
+          screen: DoctorListScreen(localSkillId: character.id),
+          withNavBar: false,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
       },
       child: Column(

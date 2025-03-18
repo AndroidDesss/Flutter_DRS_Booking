@@ -1,5 +1,6 @@
 import 'package:drs_booking/common/AppColors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 
 class CommonUtilities {
@@ -21,5 +22,12 @@ class CommonUtilities {
       closeButtonShowType: CloseButtonShowType.none,
       alignment: Alignment.bottomCenter, // Set the toast position here
     );
+  }
+
+  static String getCurrentDate() {
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('MM-dd-yyyy');
+    String formattedDate = formatter.format(now);
+    return formattedDate;
   }
 }
