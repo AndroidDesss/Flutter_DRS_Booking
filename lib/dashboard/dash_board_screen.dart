@@ -1,8 +1,8 @@
 import 'package:drs_booking/appointments/appointments_tab/view/appointments_tab_screen.dart';
 import 'package:drs_booking/authentication/view/login_screen.dart';
 import 'package:drs_booking/categories/view/categories_screen.dart';
-import 'package:drs_booking/common/AppColors.dart';
-import 'package:drs_booking/main.dart';
+import 'package:drs_booking/profile/profile_screen.dart';
+import 'package:drs_booking/search/view/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
@@ -30,9 +30,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
   final pages = [
     const CategoriesScreen(),
-    const MyHomePage(),
+    const SearchScreen(),
     const AppointmentsTabScreen(),
-    const MyHomePage()
+    const ProfileScreen()
   ];
 
   @override
