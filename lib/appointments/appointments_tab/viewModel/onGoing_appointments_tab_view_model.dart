@@ -49,20 +49,12 @@ class OngoingAppointmentsTabViewModel extends ChangeNotifier {
         }).toList();
 
         if (filteredOnGoingAppointments.isNotEmpty) {
-          //Time Sorting
+          //Data and Time Sorting
           filteredOnGoingAppointments.sort((a, b) {
-            DateFormat timeFormat = DateFormat("hh:mm a");
-            DateTime timeA = timeFormat.parse(a.time);
-            DateTime timeB = timeFormat.parse(b.time);
-            return timeB.compareTo(timeA);
-          });
-
-          //Date Sorting
-          filteredOnGoingAppointments.sort((a, b) {
-            DateFormat dateFormat = DateFormat("MM-dd-yyyy");
-            DateTime dateA = dateFormat.parse(a.date);
-            DateTime dateB = dateFormat.parse(b.date);
-            return dateB.compareTo(dateA);
+            DateFormat dateTimeFormat = DateFormat("MM-dd-yyyy hh:mm a");
+            DateTime dateTimeA = dateTimeFormat.parse("${a.date} ${a.time}");
+            DateTime dateTimeB = dateTimeFormat.parse("${b.date} ${b.time}");
+            return dateTimeA.compareTo(dateTimeB);
           });
 
           _appointmentsList = filteredOnGoingAppointments;
