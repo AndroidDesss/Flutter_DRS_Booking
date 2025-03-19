@@ -4,6 +4,7 @@ import 'package:drs_booking/common/AppColors.dart';
 import 'package:drs_booking/common/AppStrings.dart';
 import 'package:drs_booking/common/common_utilities.dart';
 import 'package:drs_booking/common/shared_pref.dart';
+import 'package:drs_booking/dashboard/dash_board_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -35,20 +36,31 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
 
   String currentDate = '';
 
+  String userId = '';
+
   String isInsurance = '';
 
   int selectedIndex = -1;
+
+  String userAgeLimit = '';
+
+  String selectedVisitOption = 'yes';
+
+  late TextEditingController _reasonToVisitController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _getSharedPrefData();
+    _reasonToVisitController = TextEditingController();
   }
 
   Future<void> _getSharedPrefData() async {
     currentDate = CommonUtilities.getCurrentDate();
     await SharedPrefsHelper.init();
+    userId = SharedPrefsHelper.getString('user_id')!;
     isInsurance = SharedPrefsHelper.getString('is_insurance')!;
+    userAgeLimit = SharedPrefsHelper.getString('ageLimit')!;
     getCurrentDayOfWeek();
   }
 
@@ -133,6 +145,8 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                 setState(() {
                                   _selectedDay = selectedDay;
                                   _focusedDay = focusedDay;
+                                  currentDate = DateFormat('MM-dd-yyyy')
+                                      .format(selectedDay);
                                 });
                                 String dayOfWeek =
                                     _getDayOfWeek(selectedDay.weekday);
@@ -231,6 +245,7 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                       ),
                                       const SizedBox(height: 10),
                                       TextField(
+                                        controller: _reasonToVisitController,
                                         style: const TextStyle(
                                           fontFamily: 'MetrischRegular',
                                           fontSize: 16,
@@ -253,33 +268,43 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                         AppStrings.visit,
                                         style: TextStyle(
                                             fontSize: 18,
-                                            fontFamily: 'MetrischBold',
+                                            fontFamily: 'MetrischSemiBold',
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Row(
                                         children: [
                                           Radio(
-                                            value: true,
-                                            groupValue: true,
-                                            onChanged: (value) {},
+                                            value: 'yes',
+                                            groupValue: selectedVisitOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedVisitOption = value!;
+                                              });
+                                            },
                                           ),
                                           const Text('Yes',
                                               style: TextStyle(
                                                   fontSize: 18,
-                                                  fontFamily: 'MetrischBold',
+                                                  fontFamily:
+                                                      'MetrischSemiBold',
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold)),
                                           const SizedBox(width: 20),
                                           Radio(
-                                            value: false,
-                                            groupValue: true,
-                                            onChanged: (value) {},
+                                            value: 'no',
+                                            groupValue: selectedVisitOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedVisitOption = value!;
+                                              });
+                                            },
                                           ),
                                           const Text('No',
                                               style: TextStyle(
                                                   fontSize: 18,
-                                                  fontFamily: 'MetrischBold',
+                                                  fontFamily:
+                                                      'MetrischSemiBold',
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold)),
                                         ],
@@ -297,38 +322,92 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) {
-                                    return AppointmentsScreen(
-                                      localDoctorId: widget.localDoctorId,
-                                      localDoctorName: widget.localDoctorName,
-                                      localDoctorCity: widget.localDoctorCity,
-                                      localDoctorAgeLimit:
-                                          widget.localDoctorAgeLimit,
+                            onPressed: () async {
+                              if (selectedIndex == -1) {
+                                CommonUtilities.showToast(context,
+                                    message: 'Please select a time slot!');
+                                return;
+                              } else if (_reasonToVisitController.text
+                                  .trim()
+                                  .isEmpty) {
+                                CommonUtilities.showToast(context,
+                                    message:
+                                        'Please enter a reason for the visit!');
+
+                                return;
+                              } else {
+                                if (int.parse(userAgeLimit) <=
+                                    int.parse(widget.localDoctorAgeLimit)) {
+                                  String selectedTime =
+                                      doctorAppointmentViewModel
+                                          .timeModelsList[selectedIndex].time;
+                                  doctorAppointmentViewModel.bookAppointments(
+                                      widget.localDoctorId,
+                                      userId,
+                                      selectedTime,
+                                      currentDate,
+                                      _reasonToVisitController.text.trim(),
+                                      selectedVisitOption,
+                                      context);
+                                } else {
+                                  bool? alert = await showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      title: const Text(
+                                        "Are you sure you want to cancel?",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'MetrischRegular',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () async {
+                                            Navigator.of(context).pop(true);
+                                          },
+                                          child: const Text(
+                                            "Ok",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'MetrischRegular',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                  if (alert == true) {
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return const DashBoardScreen();
+                                        },
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          const begin = Offset(1.0, 0.0);
+                                          const end = Offset.zero;
+                                          const curve = Curves.easeInOut;
+                                          var tween = Tween(
+                                                  begin: begin, end: end)
+                                              .chain(CurveTween(curve: curve));
+                                          var offsetAnimation =
+                                              animation.drive(tween);
+                                          return SlideTransition(
+                                            position: offsetAnimation,
+                                            child: child,
+                                          );
+                                        },
+                                      ),
+                                      (Route<dynamic> route) =>
+                                          false, // Removes all previous routes
                                     );
-                                  },
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    const begin = Offset(
-                                        1.0, 0.0); // Start from right to left
-                                    const end =
-                                        Offset.zero; // End at current position
-                                    const curve =
-                                        Curves.easeInOut; // Smooth transition
-                                    var tween = Tween(begin: begin, end: end)
-                                        .chain(CurveTween(curve: curve));
-                                    var offsetAnimation =
-                                        animation.drive(tween);
-                                    return SlideTransition(
-                                        position: offsetAnimation,
-                                        child: child);
-                                  },
-                                ),
-                              );
+                                  }
+                                }
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 50),
@@ -375,133 +454,34 @@ class ListViewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(left: 5),
-        width: 120,
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.blue : Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Text(
-            character.time,
-            style: TextStyle(
-              fontFamily: 'MetrischSemiBold',
-              fontSize: 16,
-              color: isSelected ? Colors.white : const Color(0xFF000000),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          margin: const EdgeInsets.only(left: 5),
+          width: 120,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.blue : Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              character.time,
+              style: TextStyle(
+                fontFamily: 'MetrischSemiBold',
+                fontSize: 16,
+                color: isSelected ? Colors.white : const Color(0xFF000000),
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class DoctorAppointmentScreen extends StatelessWidget {
-  final String doctorId;
-  final String day;
-
-  const DoctorAppointmentScreen({
-    Key? key,
-    required this.doctorId,
-    required this.day,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => DoctorAppointmentViewModel(),
-      child: Consumer<DoctorAppointmentViewModel>(
-        builder: (context, viewModel, child) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Doctor Appointment"),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Display a message if the doctor is not available
-                  viewModel.notAvailable
-                      ? Center(
-                          child: Text(
-                            "Doctor is not available",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                            ),
-                          ),
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Slots ListView
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: viewModel.totalSlot.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title: Text(viewModel.totalSlot[index]),
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            // Text Input for "Have you visited?"
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: "Have you visited before?",
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            // Radio Buttons (Example)
-                            Row(
-                              children: [
-                                Radio(
-                                  value: true,
-                                  groupValue: true,
-                                  onChanged: (value) {},
-                                ),
-                                const Text("Yes"),
-                                Radio(
-                                  value: false,
-                                  groupValue: false,
-                                  onChanged: (value) {},
-                                ),
-                                const Text("No"),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-
-                            // Bottom Book Appointment Button
-                            Center(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Booking logic here
-                                },
-                                child: const Text("Book Appointment"),
-                              ),
-                            ),
-                          ],
-                        ),
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }

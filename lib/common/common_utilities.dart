@@ -25,9 +25,10 @@ class CommonUtilities {
   }
 
   static String getCurrentDate() {
-    DateTime now = DateTime.now();
-    DateFormat formatter = DateFormat('MM-dd-yyyy');
-    String formattedDate = formatter.format(now);
-    return formattedDate;
+    return DateFormat("MM-dd-yyyy").format(DateTime.now());
+  }
+
+  static String getCurrentTime() {
+    return DateFormat("hh:mm a").format(DateTime.now());
   }
 }

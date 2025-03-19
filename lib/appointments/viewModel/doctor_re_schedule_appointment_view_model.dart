@@ -7,7 +7,7 @@ import 'package:drs_booking/insurance/add_insurance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class DoctorAppointmentViewModel extends ChangeNotifier {
+class DoctorReScheduleAppointmentViewModel extends ChangeNotifier {
   final AppointmentRepository _appointmentRepository = AppointmentRepository();
 
   bool _notAvailable = false;
@@ -211,7 +211,7 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
   }
 
   // Book Appointment
-  Future<void> bookAppointments(
+  Future<void> reScheduleBookAppointments(
       String doctorId,
       String patientId,
       String time,
@@ -221,144 +221,17 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
       BuildContext context) async {
     CustomLoader.showLoader(context);
     try {
-      final response = await _appointmentRepository.bookAppointment(
+      final response = await _appointmentRepository.reScheduleAppointment(
           doctorId, patientId, time, date, reasonToVisit, visitDoctor);
       if (response.data.isNotEmpty && response.status == 200) {
-        _showErrorMessage("Successfully Booked..!", context);
-        fetchInsuranceDetails(patientId, context);
+        _showErrorMessage("Reschedule Successfully Booked..!", context);
+        CustomLoader.hideLoader();
       } else {
         CustomLoader.hideLoader();
       }
     } catch (e) {
       CustomLoader.hideLoader();
       _showErrorMessage("Something went wrong..!", context);
-    }
-  }
-
-  // Insurance Details
-  Future<void> fetchInsuranceDetails(
-      String userId, BuildContext context) async {
-    CustomLoader.showLoader(context);
-    try {
-      final response = await _appointmentRepository.getInsuranceDetails(userId);
-      if (response.status == 200) {
-        if (response.data.isNotEmpty) {
-          Navigator.of(context).pushAndRemoveUntil(
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) {
-                return const DashBoardScreen();
-              },
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0);
-                const end = Offset.zero;
-                const curve = Curves.easeInOut;
-                var tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-                var offsetAnimation = animation.drive(tween);
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
-                );
-              },
-            ),
-            (Route<dynamic> route) => false, // Removes all previous routes
-          );
-        } else {
-          bool? alert = await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              backgroundColor: Colors.white,
-              title: const Text(
-                "Do you want to upload the insurance document?",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'MetrischRegular',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text(
-                    "No",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'MetrischRegular',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: const Text(
-                    "Yes",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'MetrischRegular',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                ),
-              ],
-            ),
-          );
-          if (alert == true) {
-            Navigator.of(context).pushAndRemoveUntil(
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return const DashBoardScreen();
-                },
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(1.0, 0.0);
-                  const end = Offset.zero;
-                  const curve = Curves.easeInOut;
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
-                  var offsetAnimation = animation.drive(tween);
-                  return SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
-                  );
-                },
-              ),
-              (Route<dynamic> route) => false,
-            );
-          } else {
-            Navigator.of(context).pushAndRemoveUntil(
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return const AddInsuranceScreen();
-                },
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(1.0, 0.0);
-                  const end = Offset.zero;
-                  const curve = Curves.easeInOut;
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
-                  var offsetAnimation = animation.drive(tween);
-                  return SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
-                  );
-                },
-              ),
-              (Route<dynamic> route) => false,
-            );
-          }
-        }
-      } else {
-        CustomLoader.hideLoader();
-      }
-    } catch (e) {
-      CustomLoader.hideLoader();
-      _showErrorMessage("Something went wrong..!", context);
-    } finally {
-      CustomLoader.hideLoader();
     }
   }
 }

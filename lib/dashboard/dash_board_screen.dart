@@ -1,3 +1,4 @@
+import 'package:drs_booking/appointments/appointments_tab/view/appointments_tab_screen.dart';
 import 'package:drs_booking/authentication/view/login_screen.dart';
 import 'package:drs_booking/categories/view/categories_screen.dart';
 import 'package:drs_booking/common/AppColors.dart';
@@ -30,7 +31,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   final pages = [
     const CategoriesScreen(),
     const MyHomePage(),
-    const MyHomePage(),
+    const AppointmentsTabScreen(),
     const MyHomePage()
   ];
 

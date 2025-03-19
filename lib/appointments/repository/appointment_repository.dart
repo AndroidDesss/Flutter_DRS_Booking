@@ -43,4 +43,79 @@ class AppointmentRepository {
       rethrow;
     }
   }
+
+  Future<CommonApiResponse<AppointmentResponse>> bookAppointment(
+      String doctorId,
+      String patientId,
+      String time,
+      String date,
+      String reasonToVisit,
+      String visitDoctor) async {
+    Map<String, String> body = {
+      'doctor_id': doctorId,
+      'patient_id': patientId,
+      'time': time.toUpperCase(),
+      'date': date,
+      'reason_to_visit': reasonToVisit,
+      'visit_doctor': visitDoctor,
+    };
+    try {
+      final response = await _apiService.postResponse('appointment', body);
+
+      if (response != null) {
+        return CommonApiResponse.fromJson(
+            response, (item) => AppointmentResponse.fromJson(item));
+      } else {
+        throw Exception('Invalid response from server');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<CommonApiResponse<AppointmentResponse>> reScheduleAppointment(
+      String doctorId,
+      String patientId,
+      String time,
+      String date,
+      String reasonToVisit,
+      String visitDoctor) async {
+    Map<String, String> body = {
+      'doctor_id': doctorId,
+      'patient_id': patientId,
+      'time': time.toUpperCase(),
+      'date': date,
+      'reason_to_visit': reasonToVisit,
+      'visit_doctor': visitDoctor,
+    };
+    try {
+      final response = await _apiService.postResponse('appointment', body);
+
+      if (response != null) {
+        return CommonApiResponse.fromJson(
+            response, (item) => AppointmentResponse.fromJson(item));
+      } else {
+        throw Exception('Invalid response from server');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<CommonApiResponse<AppointmentResponse>> getInsuranceDetails(
+      String userId) async {
+    Map<String, String> body = {'id': userId};
+    try {
+      final response = await _apiService.postResponse('view_insurance', body);
+
+      if (response != null) {
+        return CommonApiResponse.fromJson(
+            response, (item) => AppointmentResponse.fromJson(item));
+      } else {
+        throw Exception('Invalid response from server');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

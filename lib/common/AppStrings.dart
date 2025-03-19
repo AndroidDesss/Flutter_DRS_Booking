@@ -32,6 +32,13 @@ class AppStrings {
   static const bookAppointment = 'Book Appointment';
   static const reasonToVisit = 'Reason to visit doctor?';
   static const noSlotsAvailable = 'No Slots Available';
+  static const onGoing = 'On-Going';
+  static const missed = 'Missed';
+  static const completed = 'Completed';
+  static const noAppointments = 'No Appointments..!';
+  static const cancel = 'Cancel';
+  static const reSchedule = 'Re-Schedule';
+  static const reScheduleAppointment = 'Re-Schedule Appointment';
 
   static const enterPhoneNumber = 'Enter your Phone Number';
   static const enterPassword = 'Enter your Password';
