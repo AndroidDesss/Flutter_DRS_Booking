@@ -42,6 +42,10 @@ class AppStrings {
   static const specialization = 'Specialization';
   static const cityState = 'City / State';
   static const search = 'Search';
+  static const profile = 'Profile';
+  static const userName = 'User Name';
+  static const insurance = 'Insurances';
+  static const deleteAccount = 'Delete Account?';
 
   static const enterPhoneNumber = 'Enter your Phone Number';
   static const enterPassword = 'Enter your Password';
@@ -51,8 +55,7 @@ class AppStrings {
   static const exitMessage = 'Are you sure you want to exit?';
 
   static const pleaseWait = 'Please wait... !';
-  static const rotateAnimatedTextOne =
-      'Scan, save, and share your notes effortlessly with Zmart Doc!';
+
   static const rotateAnimatedTextTwo =
       'Transform your physical notes into digital files with our smart scanner.';
   static const rotateAnimatedTextThree =
@@ -86,7 +89,7 @@ class AppStrings {
   static const noImages = 'No Images..!';
 
   static const scannedDocuments = 'Scanned Documents';
-  static const profile = 'Profile';
+
   static const batchNameContent = 'Create a Batch Name for your documents..!';
   static const enterBatchName = 'Enter your Batch Name';
   static const batchName = 'Batch Name';

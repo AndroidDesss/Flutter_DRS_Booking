@@ -40,6 +40,7 @@ flutter:
 
   assets:
     - assets/loader/loading.json
+    - assets/loader/profile.json
     - assets/noData/noData.json
     - assets/icons/bottom_home_menu.png
     - assets/icons/bottom_search_menu.png
@@ -51,3 +52,4 @@ flutter:
     - assets/images/google.png
     - assets/images/forgot_password_vector.png
     - assets/images/doctor_icon_logo.png
+    - assets/images/log_out.png

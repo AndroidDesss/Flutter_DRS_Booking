@@ -54,7 +54,7 @@ class LoginViewModel extends ChangeNotifier {
         String age = calculateAge(response.data.first.dob);
         await SharedPrefsHelper.init();
         await SharedPrefsHelper.setString('user_id', response.data.first.id);
-        await SharedPrefsHelper.setString('loginType', 'normal');
+        await SharedPrefsHelper.setString('loginType', 'emailSignIn');
         await SharedPrefsHelper.setString(
             'is_insurance', response.data.first.isInsurance);
         await SharedPrefsHelper.setString(

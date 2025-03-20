@@ -1,7 +1,7 @@
 import 'package:drs_booking/appointments/appointments_tab/view/appointments_tab_screen.dart';
 import 'package:drs_booking/authentication/view/login_screen.dart';
 import 'package:drs_booking/categories/view/categories_screen.dart';
-import 'package:drs_booking/profile/profile_screen.dart';
+import 'package:drs_booking/profile/view/profile_screen.dart';
 import 'package:drs_booking/search/view/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
