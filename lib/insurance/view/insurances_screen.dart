@@ -72,7 +72,7 @@ class InsurancesScreenState extends State<InsurancesScreen> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return AddInsuranceScreen();
+                        return const AddInsuranceScreen();
                       },
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {

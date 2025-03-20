@@ -180,7 +180,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 25),
                       Center(
                         child: Container(
-                          width: 140, // radius * 2 + border width * 2
+                          width: 140,
                           height: 140,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -195,6 +195,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 25),
                       TextFormField(
                         controller: _nameController,
+                        enabled: false,
                         style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'MetrischRegular',
@@ -216,6 +217,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 20),
                       TextFormField(
                         controller: _phoneNumberController,
+                        enabled: false,
                         style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'MetrischRegular',
@@ -237,6 +239,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 20),
                       TextFormField(
                         controller: _emailController,
+                        enabled: false,
                         style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'MetrischRegular',
@@ -258,6 +261,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 20),
                       TextFormField(
                         controller: _passwordController,
+                        enabled: false,
                         obscureText: true,
                         style: const TextStyle(
                             color: Colors.black,
