@@ -67,12 +67,12 @@ class InsurancesScreenState extends State<InsurancesScreen> {
                   color: Colors.black,
                   size: 30.0,
                 ),
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  bool? isAdded = await Navigator.push(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const AddInsuranceScreen();
+                        return AddInsuranceScreen();
                       },
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
@@ -87,6 +87,11 @@ class InsurancesScreenState extends State<InsurancesScreen> {
                       },
                     ),
                   );
+
+                  // Refresh data if updated
+                  if (isAdded == true) {
+                    insuranceViewModel.fetchInsuranceList(userId, context);
+                  }
                 },
               ),
             ],
