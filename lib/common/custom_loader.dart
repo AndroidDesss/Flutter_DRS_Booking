@@ -8,7 +8,6 @@ class CustomLoader {
     if (_overlayEntry != null) return;
     final overlay = Overlay.of(context);
     if (overlay == null) {
-      debugPrint("Overlay is not available. Cannot show loader.");
       return;
     }
     _overlayEntry = OverlayEntry(

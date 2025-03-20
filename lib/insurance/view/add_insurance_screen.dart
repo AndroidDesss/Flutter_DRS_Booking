@@ -1,4 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:drs_booking/common/AppColors.dart';
 import 'package:drs_booking/common/AppStrings.dart';
 import 'package:drs_booking/common/shared_pref.dart';
 import 'package:drs_booking/insurance/viewModel/add_insurance_view_model.dart';
@@ -189,27 +190,22 @@ class AddInsuranceScreenState extends State<AddInsuranceScreen> {
                               ],
                             ),
                             const SizedBox(height: 20),
-                            SizedBox(
-                              width: double.infinity,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
                               child: ElevatedButton(
+                                onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
+                                  minimumSize: const Size(double.infinity, 50),
+                                  backgroundColor: AppColors.customLightGreen,
                                 ),
-                                onPressed: () {
-                                  // Handle upload button click
-                                },
                                 child: const Text(
-                                  'Add Insurance',
+                                  AppStrings.addInsurance,
                                   style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'MetrischMedium',
-                                    color: Colors.white,
-                                  ),
+                                      color: Colors.black,
+                                      fontFamily: 'MetrischSemiBold',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),

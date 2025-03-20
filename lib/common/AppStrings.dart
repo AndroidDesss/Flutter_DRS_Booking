@@ -55,30 +55,7 @@ class AppStrings {
   static const searchInsurances = 'Search Insurances';
   static const view = 'View';
   static const isActive = 'is Active';
-
-  static const enterPhoneNumber = 'Enter your Phone Number';
-  static const enterPassword = 'Enter your Password';
-
-  static const alreadyHaveAccount = 'Already have an account? ';
-
-  static const exitMessage = 'Are you sure you want to exit?';
-
-  static const pleaseWait = 'Please wait... !';
-
-  static const rotateAnimatedTextTwo =
-      'Transform your physical notes into digital files with our smart scanner.';
-  static const rotateAnimatedTextThree =
-      'Easily organize, search, and access your notes anytime, anywhere!';
-  static const rotateAnimatedTextFour =
-      'Digitize Your Notes with Zmart Doc Scanner!';
-  static const deleteImage = 'Are you sure you want to delete this image?';
-  static const forgotPasswordContentText =
-      'Enter the phone number associated with your account';
-
-  static const otp = 'Enter OTP';
-  static const verification = 'Verification';
-  static const verificationContentText =
-      'We’ve sent a 6-digit OTP to your phone. Please enter it.';
+  static const addInsurance = 'Add Insurance';
 
   static const reSendOtp = 'Re-send OTP';
   static const changePassword = 'Change Password';
@@ -89,17 +66,4 @@ class AppStrings {
   static const reEnterPassword = 'Re-enter your Password';
   static const phoneNumber = 'Phone Number';
   static const passwordNotMatch = 'Password doesn\'t match';
-
-  static const name = 'Name';
-
-  static const enterName = 'Enter your Name';
-  static const enterEmail = 'Enter your E-Mail Id';
-  static const logOut = 'Log Out';
-  static const noImages = 'No Images..!';
-
-  static const scannedDocuments = 'Scanned Documents';
-
-  static const batchNameContent = 'Create a Batch Name for your documents..!';
-  static const enterBatchName = 'Enter your Batch Name';
-  static const batchName = 'Batch Name';
 }
