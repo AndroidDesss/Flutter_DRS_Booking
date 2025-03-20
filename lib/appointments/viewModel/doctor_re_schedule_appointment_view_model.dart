@@ -3,7 +3,7 @@ import 'package:drs_booking/appointments/repository/appointment_repository.dart'
 import 'package:drs_booking/common/common_utilities.dart';
 import 'package:drs_booking/common/custom_loader.dart';
 import 'package:drs_booking/dashboard/dash_board_screen.dart';
-import 'package:drs_booking/insurance/add_insurance_screen.dart';
+import 'package:drs_booking/insurance/view/add_insurance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -46,6 +46,15 @@ class AppStrings {
   static const userName = 'User Name';
   static const insurance = 'Insurances';
   static const deleteAccount = 'Delete Account?';
+  static const noInsurances = 'No Insurances..!';
+  static const addInsurances = 'Add Insurance';
+  static const insuranceDetails = 'Insurance Details';
+  static const frontSideDocument = 'Front Side Document';
+  static const backSideDocument = 'Back Side Document';
+  static const title = 'Title';
+  static const searchInsurances = 'Search Insurances';
+  static const view = 'View';
+  static const isActive = 'is Active';
 
   static const enterPhoneNumber = 'Enter your Phone Number';
   static const enterPassword = 'Enter your Password';

@@ -20,6 +20,7 @@ dependencies:
   shared_preferences: ^2.4.0
   table_calendar: ^3.2.0
   intl: ^0.20.2
+  dropdown_search: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -53,3 +54,5 @@ flutter:
     - assets/images/forgot_password_vector.png
     - assets/images/doctor_icon_logo.png
     - assets/images/log_out.png
+    - assets/images/dummy_image.jpg
+    - assets/images/close_image.png
