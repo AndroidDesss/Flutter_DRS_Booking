@@ -5,7 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NewUserVerificationScreen extends StatefulWidget {
-  const NewUserVerificationScreen({super.key});
+  final String localPhoneNumber;
+  final String localRegion;
+  final String localFirstName;
+  final String localLastName;
+  final String localEmail;
+  final String localPassword;
+  final String localGender;
+  final String localDateOfBirth;
+
+  const NewUserVerificationScreen(
+      {super.key,
+      required this.localPhoneNumber,
+      required this.localRegion,
+      required this.localFirstName,
+      required this.localLastName,
+      required this.localEmail,
+      required this.localPassword,
+      required this.localGender,
+      required this.localDateOfBirth});
 
   @override
   _NewUserVerificationScreenState createState() =>
