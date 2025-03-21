@@ -7,7 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordVerificationScreen extends StatefulWidget {
-  const ForgotPasswordVerificationScreen({super.key});
+  final String localOtp;
+  final String localRegion;
+  final String localPhoneNumber;
+
+  const ForgotPasswordVerificationScreen(
+      {super.key,
+      required this.localOtp,
+      required this.localRegion,
+      required this.localPhoneNumber});
 
   @override
   _ForgotPasswordVerificationScreenState createState() =>
@@ -28,6 +36,12 @@ class _ForgotPasswordVerificationScreenState
   final _otpController4 = TextEditingController();
   final _otpController5 = TextEditingController();
   final _otpController6 = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    forgotPasswordVerificationViewModel.localOtp = widget.localOtp;
+  }
 
   Widget buildOTPField(TextEditingController controller) {
     return SizedBox(
@@ -128,11 +142,12 @@ class _ForgotPasswordVerificationScreenState
                                       _otpController5.clear();
                                       _otpController6.clear();
                                     });
-                                    // forgotPasswordVerificationViewModel
-                                    //     .callReSendForgotPasswordVerificationApiViewModel(
-                                    //   widget.localUserName,
-                                    //   context,
-                                    // );
+                                    forgotPasswordVerificationViewModel
+                                        .callReSendForgotPasswordVerificationApiViewModel(
+                                      widget.localPhoneNumber,
+                                      widget.localRegion,
+                                      context,
+                                    );
                                   },
                                   child: const Text(
                                     AppStrings.reSendOtp,
@@ -151,35 +166,58 @@ class _ForgotPasswordVerificationScreenState
                                     horizontal: 20.0),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // if (_formKey.currentState?.validate() ??
-                                    //     false) {
-                                    //   String enteredOtp = _otpController1.text +
-                                    //       _otpController2.text +
-                                    //       _otpController3.text +
-                                    //       _otpController4.text +
-                                    //       _otpController5.text +
-                                    //       _otpController6.text;
-                                    //   String correctOtp = viewModel.localOtp;
-                                    //   if (enteredOtp == correctOtp) {
-                                    //     CommonUtilities.showToast(context,
-                                    //         message: "Success..!");
-                                    //     Navigator.pushReplacement(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             ChangePasswordScreen(
-                                    //                 localId: widget.localId),
-                                    //       ),
-                                    //     );
-                                    //   } else {
-                                    //     CommonUtilities.showToast(context,
-                                    //         message:
-                                    //             "Invalid OTP. Please try again.");
-                                    //   }
-                                    // } else {
-                                    //   CommonUtilities.showToast(context,
-                                    //       message: otpFieldErrorContent);
-                                    // }
+                                    if (_formKey.currentState?.validate() ??
+                                        false) {
+                                      String enteredOtp = _otpController1.text +
+                                          _otpController2.text +
+                                          _otpController3.text +
+                                          _otpController4.text +
+                                          _otpController5.text +
+                                          _otpController6.text;
+                                      String correctOtp = viewModel.localOtp;
+                                      if (enteredOtp == correctOtp) {
+                                        CommonUtilities.showToast(context,
+                                            message: "Success..!");
+                                        Navigator.pushReplacement(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) {
+                                              return ChangePasswordScreen(
+                                                  localPhoneNumber:
+                                                      widget.localPhoneNumber);
+                                            },
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              const begin = Offset(1.0,
+                                                  0.0); // Start from right to left
+                                              const end = Offset
+                                                  .zero; // End at current position
+                                              const curve = Curves
+                                                  .easeInOut; // Smooth transition
+                                              var tween = Tween(
+                                                      begin: begin, end: end)
+                                                  .chain(
+                                                      CurveTween(curve: curve));
+                                              var offsetAnimation =
+                                                  animation.drive(tween);
+                                              return SlideTransition(
+                                                  position: offsetAnimation,
+                                                  child: child);
+                                            },
+                                          ),
+                                        );
+                                      } else {
+                                        CommonUtilities.showToast(context,
+                                            message:
+                                                "Invalid OTP. Please try again.");
+                                      }
+                                    } else {
+                                      CommonUtilities.showToast(context,
+                                          message: "Please Enter Otp..!");
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize:

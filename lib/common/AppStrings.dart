@@ -58,14 +58,11 @@ class AppStrings {
   static const addInsurance = 'Add Insurance';
   static const searchSpecialization = 'Select Specialization';
   static const searchCityState = 'Select City/State';
-
+  static const confirm = 'Confirm';
   static const reSendOtp = 'Re-send OTP';
-  static const changePassword = 'Change Password';
   static const changePasswordContentText =
       'Create a new password that is strong and secure.';
   static const confirmPassword = 'Confirm Password';
-  static const confirm = 'Confirm';
-  static const reEnterPassword = 'Re-enter your Password';
   static const phoneNumber = 'Phone Number';
   static const passwordNotMatch = 'Password doesn\'t match';
 }

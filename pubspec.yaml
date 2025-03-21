@@ -23,6 +23,7 @@ dependencies:
   dropdown_search: ^6.0.2
   image_picker: ^1.1.2
   permission_handler: ^11.4.0
+  image: ^3.0.1
 
 dev_dependencies:
   flutter_test:

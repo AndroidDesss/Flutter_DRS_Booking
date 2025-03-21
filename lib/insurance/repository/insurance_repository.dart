@@ -6,6 +6,7 @@ import 'package:drs_booking/network/api_response.dart';
 import 'package:drs_booking/network/network_api_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:image/image.dart' as img;
 
 class InsuranceRepository {
   final NetworkApiService _apiService = NetworkApiService();
@@ -89,22 +90,25 @@ class InsuranceRepository {
     List<http.MultipartFile> files = [];
     try {
       if (frontImage != null) {
+        final compressedFrontImage = await compressImage(frontImage);
         files.add(await http.MultipartFile.fromPath(
           'front_image',
-          frontImage.path,
+          compressedFrontImage.path,
           contentType: MediaType('image', 'jpeg'),
         ));
       }
       if (backImage != null) {
+        final compressedBackImage = await compressImage(backImage);
         files.add(await http.MultipartFile.fromPath(
           'back_image',
-          backImage.path,
+          compressedBackImage.path,
           contentType: MediaType('image', 'jpeg'),
         ));
       }
 
-      final response =
-          await _apiService.postMultipartResponse('add_insurance', body, files);
+      final response = await _apiService
+          .postMultipartResponse('add_insurance', body, files)
+          .timeout(Duration(seconds: 120));
 
       if (response != null && response['data'] != null) {
         return CommonApiResponse.fromJson(
@@ -115,5 +119,14 @@ class InsuranceRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<File> compressImage(File file) async {
+    final bytes = await file.readAsBytes();
+    final image = img.decodeImage(bytes);
+    final compressed =
+        img.encodeJpg(image!, quality: 80); // Adjust quality as needed
+    final compressedFile = File(file.path)..writeAsBytesSync(compressed);
+    return compressedFile;
   }
 }

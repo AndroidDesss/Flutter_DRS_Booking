@@ -186,11 +186,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                             10) {
                                       FocusScope.of(context)
                                           .requestFocus(FocusNode());
-                                      // forgotPasswordViewModel
-                                      //     .callForgotPasswordApi(
-                                      //         _phoneNumberController.text,
-                                      //         _selectedCountryCode,
-                                      //         context);
+                                      forgotPasswordViewModel
+                                          .callForgotPasswordOtpApi(
+                                              _phoneNumberController.text,
+                                              _selectedCountryCode,
+                                              context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
