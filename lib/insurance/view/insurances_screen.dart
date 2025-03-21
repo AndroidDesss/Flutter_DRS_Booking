@@ -87,7 +87,6 @@ class InsurancesScreenState extends State<InsurancesScreen> {
                       },
                     ),
                   );
-
                   // Refresh data if updated
                   if (isAdded == true) {
                     insuranceViewModel.fetchInsuranceList(userId, context);

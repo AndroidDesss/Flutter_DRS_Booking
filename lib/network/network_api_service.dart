@@ -53,6 +53,29 @@ class NetworkApiService extends BaseApiService {
     return responseJson;
   }
 
+  // Post Api Call With Multipart Request
+  Future<dynamic> postMultipartResponse(String url, Map<String, String> fields,
+      List<http.MultipartFile> files) async {
+    dynamic responseJson;
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(baseUrl + url));
+
+      fields.forEach((key, value) {
+        request.fields[key] = value;
+      });
+      request.files.addAll(files);
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      responseJson = returnResponse(response);
+      print("ServerResponse: ${response.statusCode} - ${response.body}");
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    } catch (e) {
+      print(e);
+    }
+    return responseJson;
+  }
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -68,7 +91,7 @@ class NetworkApiService extends BaseApiService {
       case 500:
       default:
         throw FetchDataException(
-            'Error occured while communication with server' +
+            'Error occurred while communication with server' +
                 ' with status code : ${response.statusCode}');
     }
   }

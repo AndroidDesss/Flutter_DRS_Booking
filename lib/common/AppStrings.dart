@@ -56,6 +56,8 @@ class AppStrings {
   static const view = 'View';
   static const isActive = 'is Active';
   static const addInsurance = 'Add Insurance';
+  static const searchSpecialization = 'Select Specialization';
+  static const searchCityState = 'Select City/State';
 
   static const reSendOtp = 'Re-send OTP';
   static const changePassword = 'Change Password';

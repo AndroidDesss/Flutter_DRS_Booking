@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:drs_booking/common/AppColors.dart';
 import 'package:drs_booking/common/AppStrings.dart';
 import 'package:drs_booking/common/shared_pref.dart';
@@ -64,137 +65,83 @@ class SearchScreenState extends State<SearchScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 15),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 3,
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: DropdownSearch<String>(
+                    items: (filter, infiniteScrollProps) =>
+                        viewModel.skillsList.map((e) => e.name).toList(),
+                    decoratorProps: const DropDownDecoratorProps(
+                      decoration: InputDecoration(
+                        labelText: AppStrings.searchSpecialization,
+                        labelStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontFamily: 'MetrischSemiBold',
+                        ),
+                        border: OutlineInputBorder(),
                       ),
-                    ],
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: selectedSkill,
-                      dropdownColor: Colors.white,
-                      isExpanded: true,
-                      icon: const Icon(Icons.arrow_drop_down,
-                          color: Colors.black),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'MetrischRegular',
-                        fontSize: 16,
-                      ),
-                      hint: const Row(
-                        children: [
-                          Icon(Icons.search, color: Colors.black),
-                          SizedBox(width: 5),
-                          Text(
-                            "Search Specialization",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'MetrischRegular',
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                      items: searchScreenViewModel.skillsList.map((skill) {
-                        return DropdownMenuItem<String>(
-                          value: skill.name,
-                          child: Text(skill.name,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'MetrischRegular',
-                                fontSize: 16,
-                              )),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedSkill = value;
-                          _specializationSearchController.text = value!;
-                          skillId = searchScreenViewModel.skillsList
-                              .firstWhere((skill) => skill.name == value)
-                              .id
-                              .toString();
-                        });
-                      },
                     ),
+                    popupProps: const PopupProps.menu(
+                      showSearchBox: true,
+                      searchFieldProps: TextFieldProps(
+                        decoration: InputDecoration(
+                          labelText: AppStrings.search,
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontFamily: 'MetrischSemiBold',
+                          ),
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                      ),
+                      menuProps: MenuProps(
+                        backgroundColor: Colors.white,
+                        elevation: 4,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      selectedSkill = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 3,
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: DropdownSearch<String>(
+                    items: (filter, infiniteScrollProps) =>
+                        viewModel.cityStateList.map((e) => e.cityName).toList(),
+                    decoratorProps: const DropDownDecoratorProps(
+                      decoration: InputDecoration(
+                        labelText: AppStrings.searchCityState,
+                        labelStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontFamily: 'MetrischSemiBold',
+                        ),
+                        border: OutlineInputBorder(),
                       ),
-                    ],
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: selectedCityState,
-                      dropdownColor: Colors.white,
-                      isExpanded: true,
-                      icon: const Icon(Icons.arrow_drop_down,
-                          color: Colors.black),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'MetrischRegular',
-                        fontSize: 16,
-                      ),
-                      hint: const Row(
-                        children: [
-                          Icon(Icons.location_city, color: Colors.black),
-                          SizedBox(width: 5),
-                          Text(
-                            "Select City/State",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'MetrischRegular',
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                      items: searchScreenViewModel.cityStateList.map((city) {
-                        return DropdownMenuItem<String>(
-                          value: city.cityName,
-                          child: Text(city.cityName,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'MetrischRegular',
-                                fontSize: 16,
-                              )),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedCityState = value;
-                          _cityStateSearchController.text = value!;
-                          cityId = searchScreenViewModel.cityStateList
-                              .firstWhere((city) => city.cityName == value)
-                              .id
-                              .toString();
-                        });
-                      },
                     ),
+                    popupProps: const PopupProps.menu(
+                      showSearchBox: true,
+                      searchFieldProps: TextFieldProps(
+                        decoration: InputDecoration(
+                          labelText: AppStrings.search,
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontFamily: 'MetrischSemiBold',
+                          ),
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                      ),
+                      menuProps: MenuProps(
+                        backgroundColor: Colors.white,
+                        elevation: 4,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      selectedCityState = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
