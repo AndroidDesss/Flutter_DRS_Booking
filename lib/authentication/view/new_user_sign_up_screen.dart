@@ -141,20 +141,37 @@ class _NewUserSignUpScreenState extends State<NewUserSignUpScreen> {
                                   fontFamily: 'MetrischRegular',
                                 ),
                                 decoration: InputDecoration(
-                                  labelText: AppStrings.dateOfBirth,
+                                  labelText: "Date of Birth",
                                   labelStyle: const TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 18,
-                                      fontFamily: 'MetrischRegular',
-                                      fontWeight: FontWeight.normal),
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontFamily: 'MetrischRegular',
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                   border: UnderlineInputBorder(
                                     borderRadius: BorderRadius.circular(0),
                                   ),
                                 ),
-                                keyboardType: TextInputType.text,
+                                readOnly: true,
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now(),
+                                  );
+
+                                  if (pickedDate != null) {
+                                    String formattedDate =
+                                        "${pickedDate.month}/${pickedDate.day}/${pickedDate.year}";
+                                    _dateOfBirthController.text = formattedDate;
+                                  }
+                                },
+                                keyboardType: TextInputType
+                                    .none, // Prevent the keyboard from appearing
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your email';
+                                    return 'Please enter your date of birth';
                                   }
                                   return null;
                                 },
@@ -206,7 +223,10 @@ class _NewUserSignUpScreenState extends State<NewUserSignUpScreen> {
                                 keyboardType: TextInputType.text,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your email';
+                                    return 'Please enter your password';
+                                  } else if (value == null ||
+                                      value.length < 8) {
+                                    return 'Please enter minimum 8 digits';
                                   }
                                   return null;
                                 },
@@ -257,8 +277,6 @@ class _NewUserSignUpScreenState extends State<NewUserSignUpScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 10), // Spacing
-
-                                  // Phone Number Input Field
                                   Expanded(
                                     child: TextFormField(
                                       controller: _phoneNumberController,
@@ -292,19 +310,6 @@ class _NewUserSignUpScreenState extends State<NewUserSignUpScreen> {
                                   ),
                                 ],
                               ),
-                              if (_isGetOtpPressed &&
-                                  (_phoneNumberController.text.isEmpty ||
-                                      _phoneNumberController.text.length < 10))
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    'Please enter a valid number',
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontFamily: 'MetrischRegular',
-                                        fontSize: 12),
-                                  ),
-                                ),
                               const SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -359,20 +364,18 @@ class _NewUserSignUpScreenState extends State<NewUserSignUpScreen> {
                                     horizontal: 20.0),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    setState(() {
-                                      _isGetOtpPressed = true;
-                                    });
-                                    if (_phoneNumberController
-                                            .text.isNotEmpty &&
-                                        _phoneNumberController.text.length ==
-                                            10) {
-                                      FocusScope.of(context)
-                                          .requestFocus(FocusNode());
-                                      // forgotPasswordViewModel
-                                      //     .callForgotPasswordApi(
-                                      //         _phoneNumberController.text,
-                                      //         _selectedCountryCode,
-                                      //         context);
+                                    if (_formKey.currentState?.validate() ??
+                                        false) {
+                                      newUserSignUpViewModel.callCheckUserApi(
+                                          _emailController.text,
+                                          _phoneNumberController.text,
+                                          _selectedCountryCode,
+                                          _firstNameController.text,
+                                          _lastNameController.text,
+                                          _passwordController.text,
+                                          selectedGender.toLowerCase(),
+                                          _dateOfBirthController.text,
+                                          context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(

@@ -1,6 +1,7 @@
 import 'package:drs_booking/authentication/viewModel/new_user_verification_view_model.dart';
 import 'package:drs_booking/common/AppColors.dart';
 import 'package:drs_booking/common/AppStrings.dart';
+import 'package:drs_booking/common/common_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,15 +44,27 @@ class _NewUserVerificationScreenState extends State<NewUserVerificationScreen> {
   final _otpController5 = TextEditingController();
   final _otpController6 = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      newUserVerificationViewModel.callNewUserOtpApi(
+        widget.localPhoneNumber,
+        widget.localRegion,
+        context,
+      );
+    });
+  }
+
   Widget buildOTPField(TextEditingController controller) {
     return SizedBox(
-      width: 45, // Adjust width as needed
+      width: 45,
       child: TextFormField(
         controller: controller,
         keyboardType: TextInputType.number,
         maxLength: 1,
         decoration: InputDecoration(
-          counterText: "", // Hide counter
+          counterText: "",
           border: UnderlineInputBorder(
             borderRadius: BorderRadius.circular(0),
           ),
@@ -62,9 +75,9 @@ class _NewUserVerificationScreenState extends State<NewUserVerificationScreen> {
             fontWeight: FontWeight.normal,
             fontFamily: 'MetrischRegular'),
         onChanged: (value) {
-          if (value.length >= 1) {
+          if (value.isNotEmpty) {
             FocusScope.of(context).nextFocus();
-          } else if (value.length < 1) {
+          } else if (value.isEmpty) {
             FocusScope.of(context).previousFocus();
           }
         },
@@ -142,11 +155,12 @@ class _NewUserVerificationScreenState extends State<NewUserVerificationScreen> {
                                       _otpController5.clear();
                                       _otpController6.clear();
                                     });
-                                    // forgotPasswordVerificationViewModel
-                                    //     .callReSendForgotPasswordVerificationApiViewModel(
-                                    //   widget.localUserName,
-                                    //   context,
-                                    // );
+                                    newUserVerificationViewModel
+                                        .callNewUserOtpApi(
+                                      widget.localPhoneNumber,
+                                      widget.localRegion,
+                                      context,
+                                    );
                                   },
                                   child: const Text(
                                     AppStrings.reSendOtp,
@@ -165,35 +179,37 @@ class _NewUserVerificationScreenState extends State<NewUserVerificationScreen> {
                                     horizontal: 20.0),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // if (_formKey.currentState?.validate() ??
-                                    //     false) {
-                                    //   String enteredOtp = _otpController1.text +
-                                    //       _otpController2.text +
-                                    //       _otpController3.text +
-                                    //       _otpController4.text +
-                                    //       _otpController5.text +
-                                    //       _otpController6.text;
-                                    //   String correctOtp = viewModel.localOtp;
-                                    //   if (enteredOtp == correctOtp) {
-                                    //     CommonUtilities.showToast(context,
-                                    //         message: "Success..!");
-                                    //     Navigator.pushReplacement(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             ChangePasswordScreen(
-                                    //                 localId: widget.localId),
-                                    //       ),
-                                    //     );
-                                    //   } else {
-                                    //     CommonUtilities.showToast(context,
-                                    //         message:
-                                    //             "Invalid OTP. Please try again.");
-                                    //   }
-                                    // } else {
-                                    //   CommonUtilities.showToast(context,
-                                    //       message: otpFieldErrorContent);
-                                    // }
+                                    if (_formKey.currentState?.validate() ??
+                                        false) {
+                                      String enteredOtp = _otpController1.text +
+                                          _otpController2.text +
+                                          _otpController3.text +
+                                          _otpController4.text +
+                                          _otpController5.text +
+                                          _otpController6.text;
+                                      String correctOtp = viewModel.localOtp;
+                                      if (enteredOtp == correctOtp) {
+                                        CommonUtilities.showToast(context,
+                                            message: "Success..!");
+                                        newUserVerificationViewModel
+                                            .callNewSignUpApi(
+                                                widget.localFirstName,
+                                                widget.localLastName,
+                                                widget.localEmail,
+                                                widget.localPassword,
+                                                widget.localGender,
+                                                widget.localPhoneNumber,
+                                                widget.localDateOfBirth,
+                                                context);
+                                      } else {
+                                        CommonUtilities.showToast(context,
+                                            message:
+                                                "Invalid OTP. Please try again.");
+                                      }
+                                    } else {
+                                      CommonUtilities.showToast(context,
+                                          message: 'Please Enter Otp..!');
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize:
