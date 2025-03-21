@@ -231,7 +231,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             const SizedBox(height: 10),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () async {
+                                final user = await loginViewModel
+                                    .signInWithGoogle(context);
+                                if (user != null) {
+                                  loginViewModel.callGmailLoginApi(
+                                      user.email!, user.displayName!, context);
+                                }
+                              },
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 45, vertical: 20),

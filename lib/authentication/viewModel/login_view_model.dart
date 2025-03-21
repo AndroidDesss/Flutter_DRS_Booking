@@ -1,4 +1,5 @@
 import 'package:drs_booking/authentication/repository/login_repository.dart';
+import 'package:drs_booking/authentication/view/new_user_gmail_sign_up_screen.dart';
 import 'package:drs_booking/common/common_utilities.dart';
 import 'package:drs_booking/common/custom_loader.dart';
 import 'package:drs_booking/common/shared_pref.dart';
@@ -64,25 +65,25 @@ class LoginViewModel extends ChangeNotifier {
         await SharedPrefsHelper.setString('ageLimit', age);
         Navigator.pop(context);
       } else {
-        // Navigator.push(
-        //   context,
-        //   PageRouteBuilder(
-        //     pageBuilder: (context, animation, secondaryAnimation) {
-        //       return NewGmailUserSignUpScreen(
-        //           localName: name, localEmail: email); // The target screen
-        //     },
-        //     transitionsBuilder:
-        //         (context, animation, secondaryAnimation, child) {
-        //       const begin = Offset(1.0, 0.0); // Start from right to left
-        //       const end = Offset.zero; // End at current position
-        //       const curve = Curves.easeInOut; // Smooth transition
-        //       var tween =
-        //           Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        //       var offsetAnimation = animation.drive(tween);
-        //       return SlideTransition(position: offsetAnimation, child: child);
-        //     },
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return NewUserGmailSignUpScreen(
+                  localName: userName, localEmail: email);
+            },
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0);
+              const end = Offset.zero;
+              const curve = Curves.easeInOut;
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              var offsetAnimation = animation.drive(tween);
+              return SlideTransition(position: offsetAnimation, child: child);
+            },
+          ),
+        );
       }
     } catch (e) {
       _showErrorMessage("Credentials Wrong..!", context);
