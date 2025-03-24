@@ -1,7 +1,9 @@
 import 'package:drs_booking/authentication/viewModel/new_user_gmail_sign_up_view_model.dart';
 import 'package:drs_booking/common/AppColors.dart';
 import 'package:drs_booking/common/AppStrings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class NewUserGmailSignUpScreen extends StatefulWidget {
@@ -24,6 +26,9 @@ class _NewUserGmailSignUpScreenState extends State<NewUserGmailSignUpScreen> {
 
   String selectedGender = 'Male';
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   late final TextEditingController _firstNameController =
       TextEditingController(text: widget.localName);
 
@@ -45,6 +50,11 @@ class _NewUserGmailSignUpScreenState extends State<NewUserGmailSignUpScreen> {
     {'code': '91', 'name': 'India'},
     {'code': '1', 'name': 'USA'},
   ];
+
+  Future<void> _signOut() async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -376,6 +386,7 @@ class _NewUserGmailSignUpScreenState extends State<NewUserGmailSignUpScreen> {
                     left: 10,
                     child: IconButton(
                       onPressed: () {
+                        _signOut();
                         Navigator.pop(context);
                       },
                       icon: const Icon(
