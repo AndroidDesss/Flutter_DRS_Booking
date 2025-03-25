@@ -7,9 +7,6 @@ class CustomLoader {
   static void showLoader(BuildContext context) {
     if (_overlayEntry != null) return;
     final overlay = Overlay.of(context);
-    if (overlay == null) {
-      return;
-    }
     _overlayEntry = OverlayEntry(
       builder: (context) => Stack(
         children: [

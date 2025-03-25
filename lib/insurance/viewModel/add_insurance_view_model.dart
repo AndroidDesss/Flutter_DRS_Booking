@@ -46,7 +46,7 @@ class AddInsuranceViewModel extends ChangeNotifier {
     try {
       final response = await _insuranceRepository.addNewInsurance(
           userId, name, frontImage, backImage);
-      if (response.data != null && response.status == 200) {
+      if (response.status == 200) {
         _showErrorMessage("Insurance added successfully..!", context);
         Navigator.pop(context, true);
       }

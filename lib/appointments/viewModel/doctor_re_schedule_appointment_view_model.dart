@@ -2,8 +2,6 @@ import 'package:drs_booking/appointments/model/time_model.dart';
 import 'package:drs_booking/appointments/repository/appointment_repository.dart';
 import 'package:drs_booking/common/common_utilities.dart';
 import 'package:drs_booking/common/custom_loader.dart';
-import 'package:drs_booking/dashboard/dash_board_screen.dart';
-import 'package:drs_booking/insurance/view/add_insurance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -161,7 +159,7 @@ class DoctorReScheduleAppointmentViewModel extends ChangeNotifier {
         if (status == 200) {
           var dataArray = response.data;
 
-          if (dataArray != null && dataArray.isNotEmpty) {
+          if (dataArray.isNotEmpty) {
             for (var object in dataArray) {
               String appointmentTime = object.time ?? '';
               String appointmentDate = object.date ?? '';

@@ -2,7 +2,6 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:drs_booking/common/AppColors.dart';
 import 'package:drs_booking/common/AppStrings.dart';
 import 'package:drs_booking/common/shared_pref.dart';
-import 'package:drs_booking/doctors/model/doctor_list_model.dart';
 import 'package:drs_booking/doctors/view/doctor_details_screen.dart';
 import 'package:drs_booking/search/model/search_doctor_model.dart';
 import 'package:drs_booking/search/viewModel/search_screen_view_model.dart';
@@ -20,12 +19,6 @@ class SearchScreen extends StatefulWidget {
 
 class SearchScreenState extends State<SearchScreen> {
   late SearchScreenViewModel searchScreenViewModel = SearchScreenViewModel();
-
-  final TextEditingController _specializationSearchController =
-      TextEditingController();
-
-  final TextEditingController _cityStateSearchController =
-      TextEditingController();
 
   @override
   void initState() {

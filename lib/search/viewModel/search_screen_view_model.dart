@@ -1,7 +1,6 @@
 import 'package:drs_booking/categories/model/categories_model.dart';
 import 'package:drs_booking/common/common_utilities.dart';
 import 'package:drs_booking/common/custom_loader.dart';
-import 'package:drs_booking/doctors/model/doctor_list_model.dart';
 import 'package:drs_booking/search/model/city_state_model.dart';
 import 'package:drs_booking/search/model/search_doctor_model.dart';
 import 'package:drs_booking/search/repository/search_repository.dart';

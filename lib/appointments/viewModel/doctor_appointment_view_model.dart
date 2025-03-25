@@ -161,7 +161,7 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
         if (status == 200) {
           var dataArray = response.data;
 
-          if (dataArray != null && dataArray.isNotEmpty) {
+          if (dataArray.isNotEmpty) {
             for (var object in dataArray) {
               String appointmentTime = object.time ?? '';
               String appointmentDate = object.date ?? '';

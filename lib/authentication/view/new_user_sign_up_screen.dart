@@ -17,8 +17,6 @@ class _NewUserSignUpScreenState extends State<NewUserSignUpScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool _isGetOtpPressed = false;
-
   String selectedGender = 'Male';
 
   late final TextEditingController _firstNameController =
@@ -224,8 +222,7 @@ class _NewUserSignUpScreenState extends State<NewUserSignUpScreen> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter your password';
-                                  } else if (value == null ||
-                                      value.length < 8) {
+                                  } else if (value.length < 8) {
                                     return 'Please enter minimum 8 digits';
                                   }
                                   return null;

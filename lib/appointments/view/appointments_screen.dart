@@ -182,14 +182,12 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                               daysOfWeekStyle: const DaysOfWeekStyle(
                                   weekdayStyle: TextStyle(
                                     color: Colors.black,
-                                    fontFamily:
-                                        'MetrischBold', // Set your custom font
+                                    fontFamily: 'MetrischBold',
                                     fontWeight: FontWeight.bold,
                                   ),
                                   weekendStyle: TextStyle(
                                     color: Colors.black,
-                                    fontFamily:
-                                        'MetrischBold', // Set your custom font
+                                    fontFamily: 'MetrischBold',
                                     fontWeight: FontWeight.bold,
                                   )),
                             ),
