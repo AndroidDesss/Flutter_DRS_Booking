@@ -20,8 +20,9 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  late TextEditingController _passwordController = TextEditingController();
-  late TextEditingController _confirmPasswordController =
+  late final TextEditingController _passwordController =
+      TextEditingController();
+  late final TextEditingController _confirmPasswordController =
       TextEditingController();
 
   @override
@@ -89,8 +90,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter your password';
-                                  } else if (value == null ||
-                                      value.length < 8) {
+                                  } else if (value.length < 8) {
                                     return 'Please enter minimum 8 digits';
                                   }
                                   return null;
@@ -118,8 +118,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter your confirm password';
-                                  } else if (value == null ||
-                                      value.length < 8) {
+                                  } else if (value.length < 8) {
                                     return 'Please enter minimum 8 digits';
                                   }
                                   return null;
