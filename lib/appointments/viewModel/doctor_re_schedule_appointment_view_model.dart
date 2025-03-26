@@ -19,11 +19,9 @@ class DoctorReScheduleAppointmentViewModel extends ChangeNotifier {
 
   List<TimeResponse> timeModelsList = [];
 
-  String currentDate = CommonUtilities.getCurrentDate();
-
   // Doctors Schedule
-  Future<void> fetchDoctorsSchedule(
-      String doctorId, String day, BuildContext context) async {
+  Future<void> fetchDoctorsSchedule(String doctorId, String day,
+      String currentDate, BuildContext context) async {
     CustomLoader.showLoader(context);
     _setNotAvailable(false);
     try {
@@ -41,8 +39,8 @@ class DoctorReScheduleAppointmentViewModel extends ChangeNotifier {
           String lunchStart = response.data.first.lunchStart.trim();
           String endTime = response.data.first.endTime.trim();
           String lunchEnd = response.data.first.lunchEnd.trim();
-          getMorningSlot(
-              slotTime, startTime, lunchStart, endTime, lunchEnd, doctorId);
+          getMorningSlot(slotTime, startTime, lunchStart, endTime, lunchEnd,
+              doctorId, currentDate);
         }
       } else {
         _setNotAvailable(true);
@@ -73,7 +71,7 @@ class DoctorReScheduleAppointmentViewModel extends ChangeNotifier {
 
   //Getting Morning Slots
   void getMorningSlot(int slotTime, String startTime, String lunchStart,
-      String endTime, String lunchEnd, String doctorId) {
+      String endTime, String lunchEnd, String doctorId, String currentDate) {
     morningSlot.clear();
     DateFormat format = DateFormat("hh:mm a");
     DateTime? lunchStartTime;
@@ -138,18 +136,19 @@ class DoctorReScheduleAppointmentViewModel extends ChangeNotifier {
         }
       }
     }
-    setAdapter(doctorId);
+    setAdapter(doctorId, currentDate);
   }
 
-  void setAdapter(String doctorId) {
+  void setAdapter(String doctorId, String currentDate) {
     totalSlot.clear();
     timeModelsList.clear();
     totalSlot.addAll(morningSlot);
     totalSlot.addAll(afternoonSlot);
-    fetchAlreadyBookedTime(doctorId);
+    fetchAlreadyBookedTime(doctorId, currentDate);
   }
 
-  Future<void> fetchAlreadyBookedTime(String doctorId) async {
+  Future<void> fetchAlreadyBookedTime(
+      String doctorId, String currentDate) async {
     _setNotAvailable(false);
     try {
       final response = await _appointmentRepository

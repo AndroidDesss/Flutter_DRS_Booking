@@ -79,7 +79,7 @@ class ReScheduleAppointmentsScreenState
     DateTime now = DateTime.now();
     String currentDateOfWeek = DateFormat('EEEE').format(now);
     doctorReScheduleAppointmentViewModel.fetchDoctorsSchedule(
-        widget.localDoctorId, currentDateOfWeek, context);
+        widget.localDoctorId, currentDateOfWeek, currentDate, context);
   }
 
   void _setValues() {
@@ -171,7 +171,7 @@ class ReScheduleAppointmentsScreenState
                                     _getDayOfWeek(selectedDay.weekday);
                                 doctorReScheduleAppointmentViewModel
                                     .fetchDoctorsSchedule(widget.localDoctorId,
-                                        dayOfWeek, context);
+                                        dayOfWeek, currentDate, context);
                               },
                               calendarStyle: const CalendarStyle(
                                 isTodayHighlighted: false,
