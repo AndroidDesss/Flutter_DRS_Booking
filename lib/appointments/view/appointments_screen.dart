@@ -1,5 +1,6 @@
 import 'package:drs_booking/appointments/model/time_model.dart';
 import 'package:drs_booking/appointments/viewModel/doctor_appointment_view_model.dart';
+import 'package:drs_booking/authentication/view/login_screen.dart';
 import 'package:drs_booking/common/AppColors.dart';
 import 'package:drs_booking/common/AppStrings.dart';
 import 'package:drs_booking/common/common_utilities.dart';
@@ -58,17 +59,17 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
   Future<void> _getSharedPrefData() async {
     currentDate = CommonUtilities.getCurrentDate();
     await SharedPrefsHelper.init();
-    userId = SharedPrefsHelper.getString('user_id')!;
-    isInsurance = SharedPrefsHelper.getString('is_insurance')!;
-    userAgeLimit = SharedPrefsHelper.getString('ageLimit')!;
-    getCurrentDayOfWeek();
+    userId = SharedPrefsHelper.getString('user_id') ?? '';
+    isInsurance = SharedPrefsHelper.getString('is_insurance') ?? '';
+    userAgeLimit = SharedPrefsHelper.getString('ageLimit') ?? '';
+    getCurrentDayOfWeek(currentDate);
   }
 
-  void getCurrentDayOfWeek() {
+  void getCurrentDayOfWeek(String currentDate) {
     DateTime now = DateTime.now();
     String currentDateOfWeek = DateFormat('EEEE').format(now);
     doctorAppointmentViewModel.fetchDoctorsSchedule(
-        widget.localDoctorId, currentDateOfWeek, context);
+        widget.localDoctorId, currentDateOfWeek, currentDate, context);
   }
 
   String _getDayOfWeek(int weekday) {
@@ -151,7 +152,10 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                 String dayOfWeek =
                                     _getDayOfWeek(selectedDay.weekday);
                                 doctorAppointmentViewModel.fetchDoctorsSchedule(
-                                    widget.localDoctorId, dayOfWeek, context);
+                                    widget.localDoctorId,
+                                    dayOfWeek,
+                                    currentDate,
+                                    context);
                               },
                               calendarStyle: const CalendarStyle(
                                 isTodayHighlighted: false,
@@ -321,6 +325,14 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () async {
+                              await SharedPrefsHelper.init();
+                              userId =
+                                  SharedPrefsHelper.getString('user_id') ?? '';
+                              isInsurance =
+                                  SharedPrefsHelper.getString('is_insurance') ??
+                                      '';
+                              userAgeLimit =
+                                  SharedPrefsHelper.getString('ageLimit') ?? '';
                               if (selectedIndex == -1) {
                                 CommonUtilities.showToast(context,
                                     message: 'Please select a time slot!');
@@ -334,75 +346,104 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
 
                                 return;
                               } else {
-                                if (int.parse(userAgeLimit) <=
-                                    int.parse(widget.localDoctorAgeLimit)) {
-                                  String selectedTime =
-                                      doctorAppointmentViewModel
-                                          .timeModelsList[selectedIndex].time;
-                                  doctorAppointmentViewModel.bookAppointments(
-                                      widget.localDoctorId,
-                                      userId,
-                                      selectedTime,
-                                      currentDate,
-                                      _reasonToVisitController.text.trim(),
-                                      selectedVisitOption,
-                                      context);
-                                } else {
-                                  bool? alert = await showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      backgroundColor: Colors.white,
-                                      title: const Text(
-                                        "Are you sure you want to cancel?",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'MetrischRegular',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () async {
-                                            Navigator.of(context).pop(true);
-                                          },
-                                          child: const Text(
-                                            "Ok",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'MetrischRegular',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
-                                          ),
-                                        ),
-                                      ],
+                                if (userId == "" && userId.isEmpty) {
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                          secondaryAnimation) {
+                                        return const LoginScreen();
+                                      },
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        const begin = Offset(1.0, 0.0);
+                                        const end = Offset.zero;
+                                        const curve = Curves.easeInOut;
+                                        var tween = Tween(
+                                                begin: begin, end: end)
+                                            .chain(CurveTween(curve: curve));
+                                        var offsetAnimation =
+                                            animation.drive(tween);
+                                        return SlideTransition(
+                                            position: offsetAnimation,
+                                            child: child);
+                                      },
                                     ),
                                   );
-                                  if (alert == true) {
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                            secondaryAnimation) {
-                                          return const DashBoardScreen();
-                                        },
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          const begin = Offset(1.0, 0.0);
-                                          const end = Offset.zero;
-                                          const curve = Curves.easeInOut;
-                                          var tween = Tween(
-                                                  begin: begin, end: end)
-                                              .chain(CurveTween(curve: curve));
-                                          var offsetAnimation =
-                                              animation.drive(tween);
-                                          return SlideTransition(
-                                            position: offsetAnimation,
-                                            child: child,
-                                          );
-                                        },
+                                } else {
+                                  if (int.parse(userAgeLimit) <=
+                                      int.parse(widget.localDoctorAgeLimit)) {
+                                    String selectedTime =
+                                        doctorAppointmentViewModel
+                                            .timeModelsList[selectedIndex].time;
+                                    doctorAppointmentViewModel.bookAppointments(
+                                        widget.localDoctorId,
+                                        userId,
+                                        selectedTime,
+                                        currentDate,
+                                        _reasonToVisitController.text.trim(),
+                                        selectedVisitOption,
+                                        context);
+                                  } else {
+                                    bool? alert = await showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        title: const Text(
+                                          "Are you sure you want to cancel?",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'MetrischRegular',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(context).pop(true);
+                                            },
+                                            child: const Text(
+                                              "Ok",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'MetrischRegular',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      (Route<dynamic> route) =>
-                                          false, // Removes all previous routes
                                     );
+                                    if (alert == true) {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation,
+                                              secondaryAnimation) {
+                                            return const DashBoardScreen();
+                                          },
+                                          transitionsBuilder: (context,
+                                              animation,
+                                              secondaryAnimation,
+                                              child) {
+                                            const begin = Offset(1.0, 0.0);
+                                            const end = Offset.zero;
+                                            const curve = Curves.easeInOut;
+                                            var tween = Tween(
+                                                    begin: begin, end: end)
+                                                .chain(
+                                                    CurveTween(curve: curve));
+                                            var offsetAnimation =
+                                                animation.drive(tween);
+                                            return SlideTransition(
+                                              position: offsetAnimation,
+                                              child: child,
+                                            );
+                                          },
+                                        ),
+                                        (Route<dynamic> route) =>
+                                            false, // Removes all previous routes
+                                      );
+                                    }
                                   }
                                 }
                               }

@@ -21,11 +21,9 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
 
   List<TimeResponse> timeModelsList = [];
 
-  String currentDate = CommonUtilities.getCurrentDate();
-
   // Doctors Schedule
-  Future<void> fetchDoctorsSchedule(
-      String doctorId, String day, BuildContext context) async {
+  Future<void> fetchDoctorsSchedule(String doctorId, String day,
+      String currentDate, BuildContext context) async {
     CustomLoader.showLoader(context);
     _setNotAvailable(false);
     try {
@@ -43,8 +41,8 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
           String lunchStart = response.data.first.lunchStart.trim();
           String endTime = response.data.first.endTime.trim();
           String lunchEnd = response.data.first.lunchEnd.trim();
-          getMorningSlot(
-              slotTime, startTime, lunchStart, endTime, lunchEnd, doctorId);
+          getMorningSlot(slotTime, startTime, lunchStart, endTime, lunchEnd,
+              doctorId, currentDate);
         }
       } else {
         _setNotAvailable(true);
@@ -75,7 +73,7 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
 
   //Getting Morning Slots
   void getMorningSlot(int slotTime, String startTime, String lunchStart,
-      String endTime, String lunchEnd, String doctorId) {
+      String endTime, String lunchEnd, String doctorId, String currentDate) {
     morningSlot.clear();
     DateFormat format = DateFormat("hh:mm a");
     DateTime? lunchStartTime;
@@ -140,18 +138,19 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
         }
       }
     }
-    setAdapter(doctorId);
+    setAdapter(doctorId, currentDate);
   }
 
-  void setAdapter(String doctorId) {
+  void setAdapter(String doctorId, String currentDate) {
     totalSlot.clear();
     timeModelsList.clear();
     totalSlot.addAll(morningSlot);
     totalSlot.addAll(afternoonSlot);
-    fetchAlreadyBookedTime(doctorId);
+    fetchAlreadyBookedTime(doctorId, currentDate);
   }
 
-  Future<void> fetchAlreadyBookedTime(String doctorId) async {
+  Future<void> fetchAlreadyBookedTime(
+      String doctorId, String currentDate) async {
     _setNotAvailable(false);
     try {
       final response = await _appointmentRepository
@@ -242,6 +241,7 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
     try {
       final response = await _appointmentRepository.getInsuranceDetails(userId);
       if (response.status == 200) {
+        CustomLoader.hideLoader();
         if (response.data.isNotEmpty) {
           Navigator.of(context).pushAndRemoveUntil(
             PageRouteBuilder(
@@ -306,10 +306,10 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
             ),
           );
           if (alert == true) {
-            Navigator.of(context).pushAndRemoveUntil(
+            Navigator.of(context).push(
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) {
-                  return const DashBoardScreen();
+                  return const AddInsuranceScreen();
                 },
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
@@ -325,13 +325,12 @@ class DoctorAppointmentViewModel extends ChangeNotifier {
                   );
                 },
               ),
-              (Route<dynamic> route) => false,
             );
           } else {
             Navigator.of(context).pushAndRemoveUntil(
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) {
-                  return const AddInsuranceScreen();
+                  return const DashBoardScreen();
                 },
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
