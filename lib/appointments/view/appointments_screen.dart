@@ -168,7 +168,7 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                     ),
                                     weekendTextStyle: TextStyle(
                                         color: Colors.red,
-                                        fontFamily: 'MetrischBold',
+                                        fontFamily: 'MetrischSemiBold',
                                         fontWeight: FontWeight.bold),
                                     defaultTextStyle: TextStyle(
                                       color: Colors.black,
@@ -182,7 +182,7 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                       color: Colors.black,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'MetrischBold',
+                                      fontFamily: 'MetrischSemiBold',
                                     ),
                                     titleCentered: true,
                                   ),
@@ -195,7 +195,7 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                         AppStrings.noSlotsAvailable,
                                         style: TextStyle(
                                             fontSize: 18,
-                                            fontFamily: 'MetrischMedium',
+                                            fontFamily: 'MetrischRegular',
                                             color: Colors.red,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -208,7 +208,7 @@ class AppointmentsScreenState extends State<AppointmentsScreen> {
                                           AppStrings.slots,
                                           style: TextStyle(
                                               fontSize: 18,
-                                              fontFamily: 'MetrischBold',
+                                              fontFamily: 'MetrischSemiBold',
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold),
                                         ),

@@ -222,6 +222,7 @@ class DoctorReScheduleAppointmentViewModel extends ChangeNotifier {
           doctorId, patientId, time, date, reasonToVisit, visitDoctor);
       if (response.data.isNotEmpty && response.status == 200) {
         _showErrorMessage("Reschedule Successfully Booked..!", context);
+        Navigator.pop(context);
         CustomLoader.hideLoader();
       } else {
         CustomLoader.hideLoader();

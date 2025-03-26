@@ -181,7 +181,7 @@ class ReScheduleAppointmentsScreenState
                                 ),
                                 weekendTextStyle: TextStyle(
                                   color: Colors.red,
-                                  fontFamily: 'MetrischBold',
+                                  fontFamily: 'MetrischSemiBold',
                                   fontWeight: FontWeight.bold,
                                 ),
                                 defaultTextStyle: TextStyle(
@@ -196,19 +196,19 @@ class ReScheduleAppointmentsScreenState
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'MetrischBold',
+                                  fontFamily: 'MetrischSemiBold',
                                 ),
                                 titleCentered: true,
                               ),
                               daysOfWeekStyle: const DaysOfWeekStyle(
                                 weekdayStyle: TextStyle(
                                   color: Colors.black,
-                                  fontFamily: 'MetrischBold',
+                                  fontFamily: 'MetrischSemiBold',
                                   fontWeight: FontWeight.bold,
                                 ),
                                 weekendStyle: TextStyle(
                                   color: Colors.black,
-                                  fontFamily: 'MetrischBold',
+                                  fontFamily: 'MetrischSemiBold',
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -221,7 +221,7 @@ class ReScheduleAppointmentsScreenState
                                     AppStrings.noSlotsAvailable,
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontFamily: 'MetrischMedium',
+                                      fontFamily: 'MetrischRegular',
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -234,7 +234,7 @@ class ReScheduleAppointmentsScreenState
                                       AppStrings.slots,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        fontFamily: 'MetrischBold',
+                                        fontFamily: 'MetrischSemiBold',
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -362,7 +362,12 @@ class ReScheduleAppointmentsScreenState
                             minimumSize: const Size(double.infinity, 50),
                             backgroundColor: AppColors.customLightGreen,
                           ),
-                          child: const Text(AppStrings.reScheduleAppointment),
+                          child: const Text(AppStrings.reScheduleAppointment,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'MetrischSemiBold',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ),
                     ),
