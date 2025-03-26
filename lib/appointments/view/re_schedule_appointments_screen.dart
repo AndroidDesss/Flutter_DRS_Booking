@@ -114,40 +114,40 @@ class ReScheduleAppointmentsScreenState
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            centerTitle: true,
-            title: const Text(
-              AppStrings.makeAppointment,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontFamily: 'MetrischSemiBold',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-                size: 30.0,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            AppStrings.makeAppointment,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontFamily: 'MetrischSemiBold',
+              fontWeight: FontWeight.bold,
             ),
           ),
-          backgroundColor: Colors.white,
-          body: ChangeNotifierProvider<DoctorReScheduleAppointmentViewModel>(
-            create: (BuildContext context) =>
-                doctorReScheduleAppointmentViewModel,
-            child: Consumer<DoctorReScheduleAppointmentViewModel>(
-                builder: (context, viewModel, child) {
-              return Expanded(
-                child: Stack(
-                  children: [
-                    Padding(
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: 30.0,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        backgroundColor: Colors.white,
+        body: ChangeNotifierProvider<DoctorReScheduleAppointmentViewModel>(
+          create: (BuildContext context) =>
+              doctorReScheduleAppointmentViewModel,
+          child: Consumer<DoctorReScheduleAppointmentViewModel>(
+            builder: (context, viewModel, child) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,9 +180,10 @@ class ReScheduleAppointmentsScreenState
                                   shape: BoxShape.circle,
                                 ),
                                 weekendTextStyle: TextStyle(
-                                    color: Colors.red,
-                                    fontFamily: 'MetrischBold',
-                                    fontWeight: FontWeight.bold),
+                                  color: Colors.red,
+                                  fontFamily: 'MetrischBold',
+                                  fontWeight: FontWeight.bold,
+                                ),
                                 defaultTextStyle: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'MetrischRegular',
@@ -200,18 +201,17 @@ class ReScheduleAppointmentsScreenState
                                 titleCentered: true,
                               ),
                               daysOfWeekStyle: const DaysOfWeekStyle(
-                                  weekdayStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily:
-                                        'MetrischBold', // Set your custom font
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  weekendStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily:
-                                        'MetrischBold', // Set your custom font
-                                    fontWeight: FontWeight.bold,
-                                  )),
+                                weekdayStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'MetrischBold',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                weekendStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'MetrischBold',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -220,177 +220,158 @@ class ReScheduleAppointmentsScreenState
                                   child: Text(
                                     AppStrings.noSlotsAvailable,
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'MetrischMedium',
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 18,
+                                      fontFamily: 'MetrischMedium',
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 )
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                      const Text(
-                                        AppStrings.slots,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: 'MetrischBold',
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
+                                    const Text(
+                                      AppStrings.slots,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'MetrischBold',
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      const SizedBox(height: 5),
-                                      SizedBox(
-                                        height: 50,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              viewModel.timeModelsList.length,
-                                          itemBuilder: (context, index) {
-                                            return ListViewCard(
-                                              index: index,
-                                              doctorReScheduleAppointmentViewModel:
-                                                  doctorReScheduleAppointmentViewModel,
-                                              character:
-                                                  doctorReScheduleAppointmentViewModel
-                                                      .timeModelsList[index],
-                                              isSelected:
-                                                  index == selectedIndex,
-                                              onTap: () {
-                                                setState(() {
-                                                  selectedIndex = index;
-                                                });
-                                              },
-                                            );
+                                    ),
+                                    const SizedBox(height: 5),
+                                    SizedBox(
+                                      height: 50,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            viewModel.timeModelsList.length,
+                                        itemBuilder: (context, index) {
+                                          return ListViewCard(
+                                            index: index,
+                                            doctorReScheduleAppointmentViewModel:
+                                                doctorReScheduleAppointmentViewModel,
+                                            character:
+                                                doctorReScheduleAppointmentViewModel
+                                                    .timeModelsList[index],
+                                            isSelected: index == selectedIndex,
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex = index;
+                                              });
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    TextField(
+                                      controller: _reasonToVisitController,
+                                      style: const TextStyle(
+                                        fontFamily: 'MetrischRegular',
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      decoration: InputDecoration(
+                                        hintText: AppStrings.reasonToVisit,
+                                        hintStyle: const TextStyle(
+                                          fontFamily: 'MetrischRegular',
+                                          color: Colors.blueGrey,
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const Text(
+                                      AppStrings.visit,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'MetrischSemiBold',
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: 'yes',
+                                          groupValue: selectedVisitOption,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedVisitOption = value!;
+                                            });
                                           },
                                         ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      TextField(
-                                        controller: _reasonToVisitController,
-                                        style: const TextStyle(
-                                          fontFamily: 'MetrischRegular',
-                                          fontSize: 16,
-                                          color: Colors.black,
+                                        const Text('Yes'),
+                                        const SizedBox(width: 20),
+                                        Radio(
+                                          value: 'no',
+                                          groupValue: selectedVisitOption,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedVisitOption = value!;
+                                            });
+                                          },
                                         ),
-                                        decoration: InputDecoration(
-                                          hintText: AppStrings.reasonToVisit,
-                                          hintStyle: const TextStyle(
-                                            fontFamily: 'MetrischRegular',
-                                            color: Colors.blueGrey,
-                                          ),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      const Text(
-                                        AppStrings.visit,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: 'MetrischSemiBold',
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Radio(
-                                            value: 'yes',
-                                            groupValue: selectedVisitOption,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                selectedVisitOption = value!;
-                                              });
-                                            },
-                                          ),
-                                          const Text('Yes',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      'MetrischSemiBold',
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                          const SizedBox(width: 20),
-                                          Radio(
-                                            value: 'no',
-                                            groupValue: selectedVisitOption,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                selectedVisitOption = value!;
-                                              });
-                                            },
-                                          ),
-                                          const Text('No',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      'MetrischSemiBold',
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      )
-                                    ])
+                                        const Text('No'),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: !viewModel.notAvailable,
-                      child: Positioned(
-                        bottom: 15,
-                        left: 15,
-                        right: 15,
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (selectedIndex == -1) {
-                                CommonUtilities.showToast(context,
-                                    message: 'Please select a time slot!');
-                                return;
-                              } else if (_reasonToVisitController.text
-                                  .trim()
-                                  .isEmpty) {
-                                CommonUtilities.showToast(context,
-                                    message:
-                                        'Please enter a reason for the visit!');
-
-                                return;
-                              } else {
-                                String selectedTime =
-                                    doctorReScheduleAppointmentViewModel
-                                        .timeModelsList[selectedIndex].time;
-                                doctorReScheduleAppointmentViewModel
-                                    .reScheduleBookAppointments(
-                                        widget.localDoctorId,
-                                        userId,
-                                        selectedTime,
-                                        currentDate,
-                                        _reasonToVisitController.text.trim(),
-                                        selectedVisitOption,
-                                        context);
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 50),
-                              backgroundColor: AppColors.customLightGreen,
-                            ),
-                            child: const Text(
-                              AppStrings.reScheduleAppointment,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'MetrischSemiBold',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                  ),
+                  if (!viewModel.notAvailable)
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (selectedIndex == -1) {
+                              CommonUtilities.showToast(context,
+                                  message: 'Please select a time slot!');
+                              return;
+                            } else if (_reasonToVisitController.text
+                                .trim()
+                                .isEmpty) {
+                              CommonUtilities.showToast(context,
+                                  message:
+                                      'Please enter a reason for the visit!');
+                              return;
+                            } else {
+                              String selectedTime =
+                                  doctorReScheduleAppointmentViewModel
+                                      .timeModelsList[selectedIndex].time;
+                              doctorReScheduleAppointmentViewModel
+                                  .reScheduleBookAppointments(
+                                      widget.localDoctorId,
+                                      userId,
+                                      selectedTime,
+                                      currentDate,
+                                      _reasonToVisitController.text.trim(),
+                                      selectedVisitOption,
+                                      context);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 50),
+                            backgroundColor: AppColors.customLightGreen,
                           ),
+                          child: const Text(AppStrings.reScheduleAppointment),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                ],
               );
-            }),
-          )),
+            },
+          ),
+        ),
+      ),
     );
   }
 }
