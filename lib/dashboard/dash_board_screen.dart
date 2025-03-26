@@ -1,12 +1,12 @@
 import 'package:drs_booking/appointments/appointments_tab/view/appointments_tab_screen.dart';
 import 'package:drs_booking/authentication/view/login_screen.dart';
 import 'package:drs_booking/categories/view/categories_screen.dart';
+import 'package:drs_booking/common/shared_pref.dart';
 import 'package:drs_booking/profile/view/profile_screen.dart';
 import 'package:drs_booking/search/view/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -17,6 +17,7 @@ class DashBoardScreen extends StatefulWidget {
 
 class DashBoardScreenState extends State<DashBoardScreen> {
   int _selectedIndex = 0;
+  String userId = '';
   final List<int> visitedPages = [];
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
@@ -98,21 +99,17 @@ class DashBoardScreenState extends State<DashBoardScreen> {
     }
   }
 
-  Future<bool> _checkLoginStatus() async {
-    SharedPreferences loginPreferences = await SharedPreferences.getInstance();
-    String? id = loginPreferences.getString("user_id");
-    return id != null && id.isNotEmpty;
-  }
-
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return List.generate(_iconList.length, (index) {
       return PersistentBottomNavBarItem(
         icon: GestureDetector(
           onTap: () async {
-            if (index == 2) {
-              bool isLoggedIn = await _checkLoginStatus();
-              if (!isLoggedIn) {
-                Navigator.push(
+            await SharedPrefsHelper.init();
+            userId = SharedPrefsHelper.getString('user_id') ?? '';
+
+            if (index == 2 || index == 3) {
+              if (userId.isEmpty) {
+                await Navigator.push(
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) {
@@ -131,38 +128,13 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                     },
                   ),
                 );
-              } else {
-                setState(() {
-                  _controller.jumpToTab(index);
-                });
+                await SharedPrefsHelper.init();
+                userId = SharedPrefsHelper.getString('user_id') ?? '';
+                if (userId.isEmpty) return;
               }
-            } else if (index == 3) {
-              bool isLoggedIn = await _checkLoginStatus();
-              if (!isLoggedIn) {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      return const LoginScreen();
-                    },
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      const begin = Offset(1.0, 0.0);
-                      const end = Offset.zero;
-                      const curve = Curves.easeInOut;
-                      var tween = Tween(begin: begin, end: end)
-                          .chain(CurveTween(curve: curve));
-                      var offsetAnimation = animation.drive(tween);
-                      return SlideTransition(
-                          position: offsetAnimation, child: child);
-                    },
-                  ),
-                );
-              } else {
-                setState(() {
-                  _controller.jumpToTab(index);
-                });
-              }
+              setState(() {
+                _controller.jumpToTab(index);
+              });
             } else {
               setState(() {
                 _controller.jumpToTab(index);
