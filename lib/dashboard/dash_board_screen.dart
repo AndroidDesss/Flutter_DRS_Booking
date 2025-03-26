@@ -128,18 +128,22 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                     },
                   ),
                 );
+
+                // Refresh userId after returning from login
                 await SharedPrefsHelper.init();
                 userId = SharedPrefsHelper.getString('user_id') ?? '';
-                if (userId.isEmpty) return;
+
+                // Prevent tab switch if login is still not done
+                if (userId.isEmpty) {
+                  return;
+                }
               }
-              setState(() {
-                _controller.jumpToTab(index);
-              });
-            } else {
-              setState(() {
-                _controller.jumpToTab(index);
-              });
             }
+
+            // Move to the selected tab **only if userId is not empty**
+            setState(() {
+              _controller.jumpToTab(index);
+            });
           },
           child: Image.asset(
             _iconList[index],
