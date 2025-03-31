@@ -108,7 +108,7 @@ class InsuranceRepository {
 
       final response = await _apiService
           .postMultipartResponse('add_insurance', body, files)
-          .timeout(Duration(seconds: 120));
+          .timeout(const Duration(seconds: 120));
 
       if (response != null && response['data'] != null) {
         return CommonApiResponse.fromJson(
